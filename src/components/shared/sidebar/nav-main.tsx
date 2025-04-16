@@ -1,6 +1,5 @@
 'use client';
 
-import { Separator } from '@/components/ui/separator';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -15,18 +14,14 @@ export function NavMain() {
             <SidebarGroupLabel>Recent</SidebarGroupLabel>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton tooltip={'Nothing'}>
-                        Nothing
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
-            <Separator className="my-4" />
-            <SidebarGroupLabel>All Conversations</SidebarGroupLabel>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton tooltip={'Nothing'}>
-                        Nothing
-                    </SidebarMenuButton>
+                    {Array.from({ length: 100 }).map((_, idx: number) => (
+                        <SidebarMenuButton
+                            key={idx}
+                            tooltip={`Item ${idx + 1}`}
+                        >
+                            Item {idx + 1}
+                        </SidebarMenuButton>
+                    ))}
                 </SidebarMenuItem>
             </SidebarMenu>
         </SidebarGroup>
