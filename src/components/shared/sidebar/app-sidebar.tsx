@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ArrowLeftFromLine, ArrowRightFromLine, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 import { NavMain } from '@/components/shared/sidebar/nav-main';
 import { NavUser } from '@/components/shared/sidebar/nav-user';
@@ -10,37 +10,33 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
+    SidebarMenuButton,
     SidebarRail,
     useSidebar,
 } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-    const { state, isMobile, toggleSidebar } = useSidebar();
+export default function AppSidebar({
+    ...props
+}: React.ComponentProps<typeof Sidebar>) {
+    const { state } = useSidebar();
 
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                <Button
-                    variant="secondary"
-                    size="icon"
-                    onClick={() => {
-                        toggleSidebar();
-                    }}
+                <SidebarMenuButton
+                    size="lg"
+                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
                 >
-                    {state === 'collapsed' || isMobile ? (
-                        <ArrowRightFromLine />
-                    ) : (
-                        <ArrowLeftFromLine />
-                    )}
-                </Button>
-                <Button>
-                    <Plus />
-                    {state !== 'collapsed' && 'New Conversation'}
-                </Button>
+                    <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                        <Plus className="size-4" />
+                    </div>
+                    <h4 className="text-left text-sm leading-tight truncate font-medium">
+                        New Conversation
+                    </h4>
+                </SidebarMenuButton>
             </SidebarHeader>
             <SidebarContent>
-                {state === 'collapsed' || isMobile ? <></> : <NavMain />}
+                {state === 'expanded' && <NavMain />}
             </SidebarContent>
             <SidebarFooter>
                 <NavUser />

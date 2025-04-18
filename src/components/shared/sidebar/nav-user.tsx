@@ -2,6 +2,7 @@
 
 import {
     BadgeCheck,
+    Bell,
     ChevronsUpDown,
     CreditCard,
     LogOut,
@@ -25,7 +26,18 @@ import {
     useSidebar,
 } from '@/components/ui/sidebar';
 
+interface user {
+    name: string;
+    email: string;
+    avatar: string;
+}
+
 export function NavUser() {
+    const user: user = {
+        name: 'shadcn',
+        email: 'm@example.com',
+        avatar: '/avatars/shadcn.jpg',
+    };
     const { isMobile } = useSidebar();
 
     return (
@@ -35,20 +47,23 @@ export function NavUser() {
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={''} alt={'Fuyad'} />
+                                <AvatarImage
+                                    src={user.avatar}
+                                    alt={user.name}
+                                />
                                 <AvatarFallback className="rounded-lg">
-                                    F
+                                    CN
                                 </AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-medium font-excon">
-                                    Fuyad Hasan Fahim
+                                <span className="truncate font-medium">
+                                    {user.name}
                                 </span>
                                 <span className="truncate text-xs">
-                                    fuyadhasanfahim179@gmail.com
+                                    {user.email}
                                 </span>
                             </div>
                             <ChevronsUpDown className="ml-auto size-4" />
@@ -63,17 +78,20 @@ export function NavUser() {
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src={''} alt={'Fuyad'} />
+                                    <AvatarImage
+                                        src={user.avatar}
+                                        alt={user.name}
+                                    />
                                     <AvatarFallback className="rounded-lg">
-                                        F
+                                        CN
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-medium font-excon">
-                                        Fuyad Hasan Fahim
+                                    <span className="truncate font-medium">
+                                        {user.name}
                                     </span>
                                     <span className="truncate text-xs">
-                                        fuyadhasanfahim179@gmail.com
+                                        {user.email}
                                     </span>
                                 </div>
                             </div>
@@ -94,6 +112,10 @@ export function NavUser() {
                             <DropdownMenuItem>
                                 <CreditCard />
                                 Billing
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Bell />
+                                Notifications
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

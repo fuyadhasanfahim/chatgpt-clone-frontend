@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/shared/sidebar/app-sidebar';
+import AppSidebar from '@/components/shared/sidebar/app-sidebar';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
