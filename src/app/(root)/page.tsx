@@ -1,16 +1,154 @@
-export default function Home() {
+'use client';
+
+import { useSidebar } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+interface Message {
+    id: string;
+    content: string;
+    sender: 'user' | 'recipient';
+    timestamp: Date;
+    files?: File[];
+}
+
+export default function HomePage() {
+    const { isMobile } = useSidebar();
+
+    const { username } = useParams();
+    const [messages, setMessages] = useState<Message[]>([]);
+
+    useEffect(() => {
+        const initialMessages: Message[] = [
+            {
+                id: '1',
+                content: 'Hey there! How are you doing?',
+                sender: 'recipient',
+                timestamp: new Date(Date.now() - 3600000),
+            },
+            {
+                id: '2',
+                content: `I'm good, thanks for asking! Just working on this new project.`,
+                sender: 'user',
+                timestamp: new Date(Date.now() - 3500000),
+            },
+            {
+                id: '3',
+                content: 'That sounds interesting. What kind of project is it?',
+                sender: 'recipient',
+                timestamp: new Date(Date.now() - 3400000),
+            },
+            {
+                id: '4',
+                content: `It's a messaging app with a modern UI. I'm using Next.js and shadcn components.`,
+                sender: 'user',
+                timestamp: new Date(Date.now() - 3300000),
+            },
+        ];
+        setMessages(initialMessages);
+    }, []);
+
+    const formatTime = (date: Date) => {
+        return date.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    };
+
+    const getInitial = (name?: string) => {
+        return name?.charAt(0).toUpperCase() || '?';
+    };
+
     return (
-        <section className="padding-x padding-y">
-            <div className="container">
-                <h2 className="font-excon text-4xl">
-                    Lorem ipsum dolor sit amet.
-                </h2>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Rerum itaque ullam rem enim. Sint soluta cum aliquid. Totam
-                    odio consequuntur soluta, libero provident doloribus sit
-                    aliquam odit nemo, fugit iste.
-                </p>
+        <section
+            className={cn(
+                'bg-secondary rounded-md',
+                isMobile ? 'h-[calc(578px)]' : 'h-[calc(679px-72.8px)]'
+            )}
+        >
+            <div className="flex-1 p-4">
+                <div className="space-y-4">
+                    {messages.map((message) => (
+                        <div
+                            key={message.id}
+                            className={`flex ${
+                                message.sender === 'user'
+                                    ? 'justify-end'
+                                    : 'justify-start'
+                            }`}
+                        >
+                            <div className="flex gap-2 max-w-[80%]">
+                                {message.sender === 'recipient' && (
+                                    <Avatar className="h-8 w-8">
+                                        <AvatarImage
+                                            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`}
+                                        />
+                                        <AvatarFallback>
+                                            {getInitial(username as string)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                )}
+
+                                <div
+                                    className={`flex flex-col ${
+                                        message.sender === 'user'
+                                            ? 'items-end'
+                                            : 'items-start'
+                                    }`}
+                                >
+                                    <div
+                                        className={`px-4 py-2 rounded-2xl ${
+                                            message.sender === 'user'
+                                                ? 'bg-primary text-primary-foreground'
+                                                : 'bg-muted'
+                                        }`}
+                                    >
+                                        <p>{message.content}</p>
+                                        {message.files &&
+                                            message.files.length > 0 && (
+                                                <div className="mt-2 space-y-1">
+                                                    {message.files.map(
+                                                        (file, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="text-sm flex items-center gap-1"
+                                                            >
+                                                                <span className="truncate">
+                                                                    {file.name}
+                                                                </span>
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            )}
+                                    </div>
+                                    <span className="text-xs text-muted-foreground mt-1">
+                                        {formatTime(message.timestamp)}
+                                    </span>
+                                </div>
+
+                                {message.sender === 'user' && (
+                                    <Avatar className="h-8 w-8">
+                                        <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" />
+                                        <AvatarFallback>U</AvatarFallback>
+                                    </Avatar>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+
+                    <div className="relative">
+                        <Separator className="my-4" />
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
+                            Today
+                        </div>
+                    </div>
+                </div>
+
+                <div className="h-4" />
             </div>
         </section>
     );

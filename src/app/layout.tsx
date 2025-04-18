@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/shared/sidebar/app-sidebar';
+import MessageInput from '@/components/shared/MessageInput';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -24,9 +25,12 @@ export default function RootLayout({
             <body className={`antialiased`}>
                 <SidebarProvider>
                     <AppSidebar variant="floating" />
-                    <main>
+                    <main className="w-full py-2 pr-2">
                         <SidebarTrigger />
-                        {children}
+                        <section className="flex flex-col">
+                            {children}
+                            <MessageInput />
+                        </section>
                     </main>
                 </SidebarProvider>
             </body>

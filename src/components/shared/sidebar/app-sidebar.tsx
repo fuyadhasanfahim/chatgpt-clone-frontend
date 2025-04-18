@@ -1,8 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Plus } from 'lucide-react';
-
+import { PanelLeft, PanelRight, Plus } from 'lucide-react';
 import { NavMain } from '@/components/shared/sidebar/nav-main';
 import { NavUser } from '@/components/shared/sidebar/nav-user';
 import {
@@ -14,15 +13,20 @@ import {
     SidebarRail,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
 
 export default function AppSidebar({
     ...props
 }: React.ComponentProps<typeof Sidebar>) {
-    const { state } = useSidebar();
+    const { state, toggleSidebar } = useSidebar();
 
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
+                <Button size={'icon'} variant={'ghost'} onClick={toggleSidebar}>
+                    {state === 'expanded' ? <PanelLeft /> : <PanelRight />}
+                </Button>
+
                 <SidebarMenuButton
                     size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
